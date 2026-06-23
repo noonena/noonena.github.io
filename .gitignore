@@ -1,0 +1,21 @@
+# build output — never commit this, Vite regenerates it
+dist/
+
+# TypeScript build cache
+*.tsbuildinfo
+
+# dependencies
+node_modules/
+
+# local env files
+.env
+.env.local
+.env.*.local
+
+# editor
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
