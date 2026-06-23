@@ -553,23 +553,22 @@ function ContactForm() {
 
 export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const [navScrolled, setNavScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
-
   useReveal();
   const latestVideoId = useLatestYouTubeVideo(YOUTUBE_CHANNEL_ID);
 
+  // Lock body scroll when mobile menu is open so page doesn't scroll behind it
+  useEffect(() => {
+    document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileMenuOpen]);
 
   useEffect(() => {
     const sectionIds = ["about", "experience", "projects", "skills",  "awards", "contact"];
     const onScroll = () => {
       const current = window.scrollY;
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      setScrollProgress(max > 0 ? (current / max) * 100 : 0);
       setShowBackToTop(current > 400);
-      setNavScrolled(current > 80);
 
       const offset = window.innerHeight * 0.35;
       let found = "";
@@ -613,21 +612,11 @@ export default function App() {
 
   return (
     <div className="bg-white text-zinc-900">
-      {/* scroll progress */}
-      <div
-        className="fixed left-0 top-0 z-[100] h-0.5 bg-zinc-900 transition-[width] duration-100"
-        style={{ width: `${scrollProgress}%` }}
-      />
+
 
       {/* navbar */}
-      <header
-        className={`fixed left-0 right-0 top-0 z-50 transition-all duration-500 ${
-          navScrolled
-            ? "border-b border-white/10 bg-zinc-950/70 backdrop-blur-xl"
-            : "border-b border-transparent bg-transparent"
-        }`}
-      >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3 lg:px-12">
+      <header className={`fixed left-0 right-0 top-0 z-50 border-b border-white/10 backdrop-blur-xl transition-colors duration-200 ${mobileMenuOpen ? "bg-zinc-950" : "bg-zinc-950/70"}`}>
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3.5 lg:px-12">
           <button
             type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
@@ -668,46 +657,46 @@ export default function App() {
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
-      </header>
 
-      {/* mobile menu */}
-      {mobileMenuOpen && (
-        <div className="fixed inset-x-0 bottom-0 top-[56px] z-40 flex flex-col bg-zinc-950 px-8 py-8">
-          <nav className="flex flex-col">
-            {navigation.map(([label, id], i) => (
-              <button
-                key={id}
-                type="button"
-                onClick={() => { scrollToSection(id); closeMobileMenu(); }}
-                className="group flex items-baseline gap-5 border-b border-white/5 py-5 text-left"
+        {/* mobile menu — inside header so top-full always kisses the navbar bottom, no gap */}
+        {mobileMenuOpen && (
+          <div className="absolute inset-x-0 top-full flex h-dvh flex-col bg-zinc-950 px-8 py-8">
+            <nav className="flex flex-col">
+              {navigation.map(([label, id], i) => (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => { scrollToSection(id); closeMobileMenu(); }}
+                  className="group flex items-baseline gap-5 border-b border-white/5 py-5 text-left"
+                >
+                  <span className="w-6 font-mono text-xs text-white/20">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="font-heading text-xl font-semibold text-white transition-colors group-hover:text-white/50">{label}</span>
+                </button>
+              ))}
+            </nav>
+
+            <div className="mt-auto flex items-center justify-between pb-8">
+              <div className="flex gap-5">
+                <a href="https://github.com/noonena" target="_blank" rel="noopener noreferrer" aria-label="GitHub"
+                  className="text-white/30 transition-colors hover:text-white">
+                  <Github className="h-5 w-5" />
+                </a>
+                <a href="https://www.linkedin.com/in/eunice-leow/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
+                  className="text-white/30 transition-colors hover:text-white">
+                  <Linkedin className="h-5 w-5" />
+                </a>
+              </div>
+              <a
+                href="#contact"
+                onClick={closeMobileMenu}
+                className="rounded-full bg-white px-5 py-2 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200"
               >
-                <span className="w-6 font-mono text-xs text-white/20">{String(i + 1).padStart(2, "0")}</span>
-                <span className="font-heading text-xl font-semibold text-white transition-colors group-hover:text-white/50">{label}</span>
-              </button>
-            ))}
-          </nav>
-
-          <div className="mt-auto flex items-center justify-between">
-            <div className="flex gap-5">
-              <a href="https://github.com/noonena" target="_blank" rel="noopener noreferrer" aria-label="GitHub"
-                className="text-white/30 transition-colors hover:text-white">
-                <Github className="h-5 w-5" />
-              </a>
-              <a href="https://www.linkedin.com/in/eunice-leow/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
-                className="text-white/30 transition-colors hover:text-white">
-                <Linkedin className="h-5 w-5" />
+                Hire me
               </a>
             </div>
-            <a
-              href="#contact"
-              onClick={closeMobileMenu}
-              className="rounded-full bg-white px-5 py-2 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200"
-            >
-              Hire me
-            </a>
           </div>
-        </div>
-      )}
+        )}
+      </header>
 
       {/* ── HERO ── */}
       <div id="hero"><HeroSection /></div>
