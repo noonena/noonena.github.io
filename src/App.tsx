@@ -48,7 +48,7 @@ const awardItems: FocusRailItem[] = [
   {
     id: 3,
     title: "Graduation & Recognition",
-    description: "Celebrating academic achievements with faculty and fellow graduates.",
+    description: "Royal Academic Excellence Medal 2025 with certificate.",
     meta: "May 2026 · Bangkok, Thailand",
     imageSrc: "/assets/ceremony/ceremony3.jpg",
   },
@@ -105,7 +105,7 @@ const projects = [
     date: "Nov 2025 – April 2026",
     label: "Capstone project",
     description:
-      "Built a Thai NLP segmentation pipeline from scratch — studied a 2020 dissertation, then adapted and extended the approach into a production full-stack app with CRF-based syllable and MTU segmentation and Viterbi word segmentation. Developed simultaneously while working full-time at Hogarth Worldwide as my final-year capstone project.",
+      "Built a Thai Text segmentation pipeline from scratch — studied a 2020 dissertation, then adapted and extended the approach into a production full-stack app with CRF-based syllable and MTU segmentation and k-best word segmentation. Developed simultaneously while working full-time at Hogarth Worldwide as my final-year capstone project.",
     tags: ["React", "TypeScript", "Vite", "Tailwind CSS", "FastAPI", "Python", "SQLite", "CRF"],
     github: "https://github.com/noonena/Thai-Text-Segmenter-System",
     live: null,
@@ -331,8 +331,71 @@ function ExperienceSection({ experiences }: { experiences: Experience[] }) {
       setTimeout(() => { lockRef.current = false; }, 700);
     };
 
+    let touchStartY = 0;
+    let touchStartX = 0;
+    let touchIntent: "undecided" | "navigate" | "scroll" = "undecided";
+
+    const onTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+      touchStartX = e.touches[0].clientX;
+      touchIntent = "undecided";
+    };
+
+    // Non-passive so we can preventDefault and stop the browser claiming the gesture for page scroll
+    const onTouchMove = (e: TouchEvent) => {
+      if (touchIntent !== "undecided") {
+        if (touchIntent === "navigate") e.preventDefault();
+        return;
+      }
+      const diffY = touchStartY - e.touches[0].clientY;
+      const diffX = touchStartX - e.touches[0].clientX;
+      if (Math.abs(diffY) < 5 && Math.abs(diffX) < 5) return;
+      if (Math.abs(diffY) > Math.abs(diffX)) {
+        const dir = diffY > 0 ? 1 : -1;
+        const cur = activeIdxRef.current;
+        const canNavigate = dir === 1 ? cur < experiences.length - 1 : cur > 0;
+        if (canNavigate) {
+          touchIntent = "navigate";
+          e.preventDefault();
+        } else {
+          touchIntent = "scroll";
+        }
+      } else {
+        touchIntent = "scroll";
+      }
+    };
+
+    const onTouchEnd = (e: TouchEvent) => {
+      if (touchIntent !== "navigate") return;
+      const diff = touchStartY - e.changedTouches[0].clientY;
+      if (Math.abs(diff) < 30) return;
+      const dir = diff > 0 ? 1 : -1;
+      const cur = activeIdxRef.current;
+      const canNavigate = dir === 1 ? cur < experiences.length - 1 : cur > 0;
+      if (!canNavigate) return;
+      if (lockRef.current) return;
+      lockRef.current = true;
+      const next = cur + dir;
+      setDirection(dir);
+      setAnimating(false);
+      requestAnimationFrame(() => {
+        setActiveIdx(next);
+        activeIdxRef.current = next;
+        setAnimating(true);
+      });
+      setTimeout(() => { lockRef.current = false; }, 700);
+    };
+
     el.addEventListener("wheel", onWheel, { passive: false });
-    return () => el.removeEventListener("wheel", onWheel);
+    el.addEventListener("touchstart", onTouchStart, { passive: true });
+    el.addEventListener("touchmove", onTouchMove, { passive: false });
+    el.addEventListener("touchend", onTouchEnd, { passive: true });
+    return () => {
+      el.removeEventListener("wheel", onWheel);
+      el.removeEventListener("touchstart", onTouchStart);
+      el.removeEventListener("touchmove", onTouchMove);
+      el.removeEventListener("touchend", onTouchEnd);
+    };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const exp = experiences[activeIdx];
@@ -885,7 +948,7 @@ export default function App() {
         <FocusRail
           items={awardItems}
           autoPlay
-          interval={1800}
+          interval={2500}
           heading="Award Ceremony"
           subheading="Royal Academic Excellence Medal — presented to the top-performing engineering student per university nationwide in Thailand."
         />
