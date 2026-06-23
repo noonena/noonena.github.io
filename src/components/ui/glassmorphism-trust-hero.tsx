@@ -48,11 +48,11 @@ export default function HeroSection() {
       <div className="absolute bottom-10 left-0 right-0 z-30 flex flex-col items-center text-center sm:bottom-12 lg:bottom-14">
         <p
           className="font-heading font-bold leading-none tracking-tighter text-white"
-          style={{ fontSize: "clamp(1.8rem, 5vw, 4rem)" }}
+          style={{ fontSize: "clamp(1.8rem, 5vw, 4rem)", WebkitTextStroke: "2px black" }}
         >
           Eunice Leow
         </p>
-        <p className="mt-2 text-[10px] font-medium uppercase tracking-[0.25em] text-white/50 sm:text-[11px]">
+        <p className="mt-2 inline-block bg-white px-3 py-1 text-[15px] font-medium uppercase tracking-[0.25em] text-zinc-900 sm:text-[11px]">
           Computer Engineer
         </p>
       </div>
