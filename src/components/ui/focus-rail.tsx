@@ -77,12 +77,12 @@ export function FocusRail({
     else if (swipe > 8000) handlePrev();
   };
 
-  const visibleIndices = [-2, -1, 0, 1, 2];
+  const visibleIndices = [-1, 0, 1];
 
   return (
     <div
       className={cn(
-        "group relative flex h-full w-full select-none flex-col overflow-hidden text-white outline-none",
+        "group relative flex h-full w-full select-none flex-col text-white outline-none [overflow:clip]",
         className
       )}
       onMouseEnter={() => setIsHovering(true)}
@@ -122,7 +122,7 @@ export function FocusRail({
         )}
 
         <motion.div
-          className="relative flex h-[380px] w-screen max-w-7xl cursor-grab items-center justify-center active:cursor-grabbing lg:h-[460px] xl:h-[540px]"
+          className="relative flex h-[380px] w-full max-w-7xl cursor-grab items-center justify-center active:cursor-grabbing lg:h-[460px] xl:h-[540px]"
           style={{ perspective: "1400px" }}
           drag="x"
           dragConstraints={{ left: 0, right: 0 }}

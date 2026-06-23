@@ -35,21 +35,21 @@ const awardItems: FocusRailItem[] = [
     id: 1,
     title: "Royal Academic Excellence Medal",
     description: "Awarded to the top-performing engineering student per university nationwide in Thailand.",
-    meta: "December 2025",
+    meta: "21st December 2025",
     imageSrc: "/assets/ceremony/ceremony1.jpg",
   },
   {
     id: 2,
     title: "Award Ceremony",
     description: "Receiving the Royal Academic Excellence Medal at the annual university awards ceremony.",
-    meta: "December 2025 · Mahanakorn University of Technology",
+    meta: "21st December 2025",
     imageSrc: "/assets/ceremony/ceremony2.jpg",
   },
   {
     id: 3,
-    title: "Graduation & Recognition",
+    title: "Recognition",
     description: "Royal Academic Excellence Medal 2025 with certificate.",
-    meta: "May 2026 · Bangkok, Thailand",
+    meta: "21st December 2025",
     imageSrc: "/assets/ceremony/ceremony3.jpg",
   },
 ];
@@ -331,44 +331,15 @@ function ExperienceSection({ experiences }: { experiences: Experience[] }) {
       setTimeout(() => { lockRef.current = false; }, 700);
     };
 
-    let touchStartY = 0;
+    // Horizontal swipe: touch-action:pan-y on the element lets iOS handle vertical page
+    // scroll natively, so JavaScript only sees horizontal swipes — no gesture conflicts.
     let touchStartX = 0;
-    let touchIntent: "undecided" | "navigate" | "scroll" = "undecided";
-
     const onTouchStart = (e: TouchEvent) => {
-      touchStartY = e.touches[0].clientY;
       touchStartX = e.touches[0].clientX;
-      touchIntent = "undecided";
     };
-
-    // Non-passive so we can preventDefault and stop the browser claiming the gesture for page scroll
-    const onTouchMove = (e: TouchEvent) => {
-      if (touchIntent !== "undecided") {
-        if (touchIntent === "navigate") e.preventDefault();
-        return;
-      }
-      const diffY = touchStartY - e.touches[0].clientY;
-      const diffX = touchStartX - e.touches[0].clientX;
-      if (Math.abs(diffY) < 5 && Math.abs(diffX) < 5) return;
-      if (Math.abs(diffY) > Math.abs(diffX)) {
-        const dir = diffY > 0 ? 1 : -1;
-        const cur = activeIdxRef.current;
-        const canNavigate = dir === 1 ? cur < experiences.length - 1 : cur > 0;
-        if (canNavigate) {
-          touchIntent = "navigate";
-          e.preventDefault();
-        } else {
-          touchIntent = "scroll";
-        }
-      } else {
-        touchIntent = "scroll";
-      }
-    };
-
     const onTouchEnd = (e: TouchEvent) => {
-      if (touchIntent !== "navigate") return;
-      const diff = touchStartY - e.changedTouches[0].clientY;
-      if (Math.abs(diff) < 30) return;
+      const diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) < 40) return;
       const dir = diff > 0 ? 1 : -1;
       const cur = activeIdxRef.current;
       const canNavigate = dir === 1 ? cur < experiences.length - 1 : cur > 0;
@@ -388,12 +359,10 @@ function ExperienceSection({ experiences }: { experiences: Experience[] }) {
 
     el.addEventListener("wheel", onWheel, { passive: false });
     el.addEventListener("touchstart", onTouchStart, { passive: true });
-    el.addEventListener("touchmove", onTouchMove, { passive: false });
     el.addEventListener("touchend", onTouchEnd, { passive: true });
     return () => {
       el.removeEventListener("wheel", onWheel);
       el.removeEventListener("touchstart", onTouchStart);
-      el.removeEventListener("touchmove", onTouchMove);
       el.removeEventListener("touchend", onTouchEnd);
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -413,7 +382,7 @@ function ExperienceSection({ experiences }: { experiences: Experience[] }) {
       </div>
 
       {/* card — stable wrapper captures wheel; inner div handles animation */}
-      <div ref={cardRef} className="w-full max-w-3xl xl:max-w-4xl 2xl:max-w-5xl">
+      <div ref={cardRef} className="w-full max-w-3xl xl:max-w-4xl 2xl:max-w-5xl" style={{ touchAction: 'pan-y' }}>
       <div
         key={activeIdx}
         className="w-full rounded-3xl border border-zinc-200 bg-white p-8 xl:p-10 shadow-sm"
