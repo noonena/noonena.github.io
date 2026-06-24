@@ -615,7 +615,7 @@ export default function App() {
 
 
       {/* navbar */}
-      <header className={`fixed left-0 right-0 top-0 z-50 border-b border-white/10 backdrop-blur-xl transition-colors duration-200 ${mobileMenuOpen ? "bg-zinc-950" : "bg-zinc-950/70"}`}>
+      <header className={`fixed left-0 right-0 top-0 z-50 border-b border-white/10 backdrop-blur-xl transition-colors duration-200 ${mobileMenuOpen ? "bg-zinc-950" : "bg-zinc-950 md:bg-zinc-950/70"}`}>
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3.5 lg:px-12">
           <button
             type="button"
@@ -1010,7 +1010,7 @@ export default function App() {
         type="button"
         aria-label="Back to top"
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className={`btt-hidden fixed bottom-7 right-7 flex h-10 w-10 items-center justify-center rounded-full bg-zinc-900 text-white shadow-lg hover:bg-zinc-700 ${showBackToTop ? "btt-show" : ""}`}
+        className={`btt-hidden fixed bottom-7 left-1/2 -translate-x-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-zinc-900/25 text-white shadow-lg hover:bg-zinc-900/50 ${showBackToTop ? "btt-show" : ""}`}
       >
         <ChevronUp className="h-4 w-4" />
       </button>
