@@ -14,7 +14,7 @@ html {
 body {
   margin: 0;
   overflow-x: hidden;
-  background: var(--background);
+  background: #09090b;
   color: var(--foreground);
   font-family: "Archivo", sans-serif;
 }

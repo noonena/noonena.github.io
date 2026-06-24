@@ -510,7 +510,7 @@ function ContactForm() {
             type="text"
             required
             placeholder="Your name"
-            className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 focus:border-zinc-400 focus:ring-2 focus:ring-zinc-100 transition"
+            className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-base text-zinc-900 outline-none placeholder:text-zinc-400 focus:border-zinc-400 focus:ring-2 focus:ring-zinc-100 transition"
           />
         </div>
         <div>
@@ -521,7 +521,7 @@ function ContactForm() {
             type="email"
             required
             placeholder="your@email.com"
-            className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 focus:border-zinc-400 focus:ring-2 focus:ring-zinc-100 transition"
+            className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-base text-zinc-900 outline-none placeholder:text-zinc-400 focus:border-zinc-400 focus:ring-2 focus:ring-zinc-100 transition"
           />
         </div>
       </div>
@@ -533,7 +533,7 @@ function ContactForm() {
           required
           rows={5}
           placeholder="Tell me about the role or project..."
-          className="w-full resize-none rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 focus:border-zinc-400 focus:ring-2 focus:ring-zinc-100 transition"
+          className="w-full resize-none rounded-xl border border-zinc-200 bg-white px-4 py-3 text-base text-zinc-900 outline-none placeholder:text-zinc-400 focus:border-zinc-400 focus:ring-2 focus:ring-zinc-100 transition"
         />
       </div>
       {status === "error" && (
@@ -611,7 +611,7 @@ export default function App() {
   const closeMobileMenu = () => setMobileMenuOpen(false);
 
   return (
-    <div className="bg-white text-zinc-900">
+    <div className="bg-zinc-950 text-zinc-900">
 
 
       {/* navbar */}
