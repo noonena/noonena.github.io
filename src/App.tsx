@@ -130,7 +130,7 @@ const skillGroups = [
   { title: "Frontend", icon: Code2, tags: ["React", "Vue.js", "Vite", "Tailwind CSS"] },
   { title: "Backend & Databases", icon: Wrench, tags: ["FastAPI", "Uvicorn", "SQLite", "Oracle SQL", "SQL*Plus"] },
   { title: "Cloud & Infrastructure", icon: Cloud, tags: ["AWS (studying)", "Linux / Debian", "Cisco Packet Tracer"] },
-  { title: "Cybersecurity", icon: Shield, tags: ["Network Security", "Linux Hardening", "Wireshark"] },
+  { title: "Cybersecurity", icon: Shield, tags: ["Network Security", "Linux Hardening", "Wireshark", "API Security"] },
   { title: "Developer Tools", icon: Wrench, tags: ["Git", "GitHub", "SVN", "VSCode", "Jupyter", "Google Colab", "ClickUp"] },
 ];
 
@@ -732,10 +732,9 @@ export default function App() {
             </p>
 
             <p className="leading-relaxed text-zinc-600">
-              After graduating I went freelance — solo-shipped a client website and now building a{" "}
-              <strong className="text-zinc-900">full e-commerce platform</strong> from scratch.
-              To architect it properly — scalable hosting, deployment pipelines, the works — I&apos;m actively building{" "}
-              <strong className="text-zinc-900">Cloud & DevOps</strong> skills with intent.
+              After graduating I went freelance — solo-shipped a client website.
+              I&apos;m now building toward{" "}
+              <strong className="text-zinc-900">Cloud & DevOps</strong> with intent — learning API security and cloud architecture before I build.
               Google Cybersecurity Professional certified; currently studying AWS Solutions Architect.
             </p>
 
@@ -795,6 +794,14 @@ export default function App() {
                 status: "In Progress",
                 statusColor: "bg-zinc-100 text-zinc-600",
                 tags: ["Preparation 30%"],
+                credential: null,
+              },
+              {
+                title: "API Security",
+                meta: "APIsec University",
+                status: "In Progress",
+                statusColor: "bg-zinc-100 text-zinc-600",
+                tags: ["OWASP API Top 10", "API Penetration Testing"],
                 credential: null,
               },
             ].map((item) => (
