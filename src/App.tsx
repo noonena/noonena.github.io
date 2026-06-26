@@ -62,7 +62,7 @@ const experiences: Experience[] = [
     subtitle: "Self-directed projects & client work",
     bullets: [
       "Designed and shipped a full production website end-to-end for a Singapore-based international consultancy.",
-      "Developing a full e-commerce platform from the ground up — product catalogue, cart and checkout flow.",
+      "Designing database schemas and building full-stack features tailored to client requirements.",
     ],
     tags: ["React", "TypeScript", "E-commerce", "Freelance"],
     active: true,
