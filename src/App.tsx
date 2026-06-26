@@ -27,8 +27,7 @@ import { FocusRail, type FocusRailItem } from "@/components/ui/focus-rail";
 //  All personal data lives in this block — scroll no further.
 // ─────────────────────────────────────────────────────────────
 
-// Paste your YouTube channel ID here (YouTube Studio → Settings → Channel → Basic info)
-const YOUTUBE_CHANNEL_ID = "UCeRy2Qqb6fV1ydc9RQT1PyQ";
+const YOUTUBE_VIDEO_ID = "VgYV2V_EMEE";
 
 const awardItems: FocusRailItem[] = [
   {
@@ -134,25 +133,6 @@ const skillGroups = [
   { title: "Developer Tools", icon: Wrench, tags: ["Git", "GitHub", "SVN", "VSCode", "Jupyter", "Google Colab", "ClickUp"] },
 ];
 
-// Fetches latest public video from a YouTube channel via RSS (no API key needed)
-function useLatestYouTubeVideo(channelId: string) {
-  const [videoId, setVideoId] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!channelId) return;
-    const rss = encodeURIComponent(`https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`);
-    fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rss}`)
-      .then((r) => r.json())
-      .then((data) => {
-        const link: string = data.items?.[0]?.link ?? "";
-        const match = link.match(/v=([^&]+)/);
-        if (match?.[1]) setVideoId(match[1]);
-      })
-      .catch(() => {});
-  }, [channelId]);
-
-  return videoId;
-}
 
 function useReveal() {
   useEffect(() => {
@@ -556,7 +536,6 @@ export default function App() {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   useReveal();
-  const latestVideoId = useLatestYouTubeVideo(YOUTUBE_CHANNEL_ID);
 
   // Lock body scroll when mobile menu is open so page doesn't scroll behind it
   useEffect(() => {
@@ -941,31 +920,13 @@ export default function App() {
 
           <div className="reveal-right">
             <div className="relative aspect-video overflow-hidden rounded-3xl bg-zinc-900">
-              {latestVideoId ? (
-                <iframe
-                  src={`https://www.youtube.com/embed/${latestVideoId}`}
-                  title="Latest YouTube video"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="absolute inset-0 h-full w-full border-0"
-                />
-              ) : (
-                /* Fallback shown while loading or if channel ID not set */
-                <>
-                  <div className="dot-grid absolute inset-0 opacity-10" />
-                  <a
-                    href="https://www.youtube.com/@HonestlyLost"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="relative z-10 flex h-full flex-col items-center justify-center gap-3"
-                  >
-                    <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/20 bg-white/10 transition-colors hover:bg-white/20">
-                      <Play className="h-6 w-6 fill-white text-white" />
-                    </div>
-                    <p className="text-sm font-medium text-white/50">@HonestlyLost</p>
-                  </a>
-                </>
-              )}
+              <iframe
+                src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}`}
+                title="Latest YouTube video"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="absolute inset-0 h-full w-full border-0"
+              />
             </div>
           </div>
         </div>
