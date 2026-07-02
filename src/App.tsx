@@ -772,7 +772,7 @@ export default function App() {
                 meta: "Amazon Web Services · Associate",
                 status: "In Progress",
                 statusColor: "bg-zinc-100 text-zinc-600",
-                tags: ["Preparation 30%"],
+                tags: ["Preparation 15%"],
                 credential: null,
               },
               {
