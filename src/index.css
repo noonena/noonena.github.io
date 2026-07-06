@@ -8,13 +8,13 @@
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
-  background: #09090b;
+  background: #ffffff;
 }
 
 body {
   margin: 0;
   overflow-x: hidden;
-  background: #09090b;
+  background: #ffffff;
   color: var(--foreground);
   font-family: "Archivo", sans-serif;
 }
