@@ -966,10 +966,10 @@ export default function App() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer className="border-t border-zinc-100 bg-white py-7">
+      <footer className="border-t border-white/10 bg-zinc-950 py-7">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-6 sm:flex-row lg:px-12">
-          <p className="text-sm text-zinc-400">© 2026 Eunice Leow. All rights reserved.</p>
-          <p className="text-sm text-zinc-400">Designed & built with care.</p>
+          <p className="text-sm text-white/40">© 2026 Eunice Leow. All rights reserved.</p>
+          <p className="text-sm text-white/40">Designed & built with care.</p>
         </div>
       </footer>
 
